@@ -10,3 +10,14 @@ join dannys_diner.menu as m
 on s.product_id = m.product_id
 group by customer_id
 ORDER BY customer_id;
+
+
+
+-- 2. How many days has each customer visited the restaurant?
+SELECT
+  	customer_id,
+    count(order_date)
+FROM dannys_diner.sales
+group by customer_id
+ORDER BY customer_id;
+
