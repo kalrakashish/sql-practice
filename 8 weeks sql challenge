@@ -1,0 +1,12 @@
+Case Study Questions
+   --------------------*/
+
+-- 1. What is the total amount each customer spent at the restaurant?
+SELECT
+  	s.customer_id,
+    sum(m.price) as amount
+FROM dannys_diner.sales as s
+join dannys_diner.menu as m
+on s.product_id = m.product_id
+group by customer_id
+ORDER BY customer_id;
