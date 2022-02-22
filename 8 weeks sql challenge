@@ -21,3 +21,15 @@ FROM dannys_diner.sales
 group by customer_id
 ORDER BY customer_id;
 
+-- 3. What was the first item from the menu purchased by each customer?
+with sales_cte as (
+  select customer_id, product_name,
+  dense_rank() over(partition by s.customer_id order by s.order_date) as dns_rnk
+  FROM dannys_diner.sales as s
+  join dannys_diner.menu as m
+  on s.product_id = m.product_id)
+  
+  select customer_id,product_name
+  from sales_cte
+  where dns_rnk = 1
+  group by customer_id, product_name;
