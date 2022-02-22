@@ -44,6 +44,16 @@ order by cnt desc
 LIMIT 1;
 
 -- 5. Which item was the most popular for each customer?
+with count_each_item as(
+select s.customer_id,count(s.product_id) as cnt, m.product_name,
+dense_rank() over(partition by s.customer_id order by count(s.product_id) desc) as dns_rnk
+FROM dannys_diner.sales as s
+join dannys_diner.menu as m
+on s.product_id = m.product_id
+group by customer_id,m.product_name)
+
+select customer_id, product_name from count_each_item
+where dns_rnk=1;
 -- 6. Which item was purchased first by the customer after they became a member?
 -- 7. Which item was purchased just before the customer became a member?
 -- 8. What is the total items and amount spent for each member before they became a member?
