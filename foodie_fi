@@ -15,6 +15,17 @@ order by month_number
 
 
 What plan start_date values occur after the year 2020 for our dataset? Show the breakdown by count of events for each plan_name
+ with plans_after_2020 as(
+  select * 
+  from foodie_fi.subscriptions
+  where start_date >= '2020-01-01')
+  
+ select count(*),plan_id
+ from plans_after_2020
+ group by plan_id
+ order by plan_id
+
+
 What is the customer count and percentage of customers who have churned rounded to 1 decimal place?
 How many customers have churned straight after their initial free trial - what percentage is this rounded to the nearest whole number?
 What is the number and percentage of customer plans after their initial free trial?
