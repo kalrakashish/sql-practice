@@ -1,0 +1,6 @@
+Count how many claims submitted in December 2021 are still pending. A claim is pending when it has neither an acceptance nor rejection date.
+(https://platform.stratascratch.com/coding/2083-pending-claims?code_type=3)
+my ans - 
+select count(claim_id)
+from cvs_claims
+where date_rejected <> '' or NULL AND date_accepted <> '' OR NULL;
