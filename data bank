@@ -1,26 +1,74 @@
 How many unique nodes are there on the Data Bank system?
 
-    SELECT COUNT(DISTINCT NODE_ID) as node_count FROM data_bank.customer_nodes;
+        SELECT COUNT(DISTINCT NODE_ID) as node_count FROM data_bank.customer_nodes;
 
 
 What is the number of nodes per region?
-SELECT region_id, COUNT(DISTINCT NODE_ID) as node_count 
-FROM data_bank.customer_nodes
-GROUP BY region_id;
+
+
+        SELECT region_id, COUNT(DISTINCT NODE_ID) as node_count 
+        FROM data_bank.customer_nodes
+        GROUP BY region_id;
 
 
 
 
 How many customers are allocated to each region?
 
+        SELECT r.region_name, COUNT(DISTINCT cn.customer_id) as Customer_count 
+        FROM data_bank.customer_nodes as cn
+        join data_bank.regions as r
+        on cn.region_id = r.region_id
+        GROUP BY r.region_name;
 
 
 How many days on average are customers reallocated to a different node?
 
+        SELECT AVG(DATEDIFF(end_date, start_date))
+        FROM data_bank.customer_nodes;
 
 
 
 What is the median, 80th and 95th percentile for this same reallocation days metric for each region?
-
+        
+     with reallocation_days as(
+         SELECT *, DATEDIFF(end_date, start_date) as reallocation_days
+         FROM data_bank.customer_nodes;)
+ percent_cte as(
+           select *, percent_rank over (partition by region_id order by reallocation_days)*100 as percentile
+           from reallocation_days)
+           
+   SELECT region_id, percentile, reallocation_days as 95_percentile
+   from percent_cte
+	where percentile > 95
+    group by region_id 
+    
+    UNION ALL
+    
+    SELECT region_id, percentile, reallocation_days as 80_percentile
+   from percent_cte
+	where percentile > 80
+    group by region_id
+    
+    UNION ALL
+    
+    SELECT region_id, percentile, reallocation_days AS median_days
+   from percent_cte
+	where percentile > 50
+    group by region_id 
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
 
