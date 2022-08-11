@@ -42,3 +42,51 @@ CREATE TEMP TABLE cleaned_weekly_sales as
   
   from data_mart.weekly_sales
 );
+
+/*What day of the week is used for each week_date value?
+SELECT DISTINCT(TO_CHAR(week_date,'DAY')) as day_used
+from cleaned_weekly_sales;
+
+
+What range of week numbers are missing from the dataset?
+
+How many total transactions were there for each year in the dataset?
+SELECT calendar_year, SUM(transactions)
+from cleaned_weekly_sales
+GROUP BY calendar_year
+ORDER BY calendar_year;
+
+What is the total sales for each region for each month?
+SELECT region, month_number, SUM(sales)
+from cleaned_weekly_sales
+GROUP BY region, month_number
+ORDER BY region, month_number;
+
+What is the total count of transactions for each platform
+What is the percentage of sales for Retail vs Shopify for each month?
+What is the percentage of sales by demographic for each year in the dataset?
+Which age_band and demographic values contribute the most to Retail sales?
+Can we use the avg_transaction column to find the average transaction size for each year for Retail vs Shopify? If not - how would you calculate it instead?
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
